@@ -1,10 +1,14 @@
 #Create array of the madklubs. That's good english!
-$madklubber = "Maj & Thomas", "Anette & Emil", "Tine & Magnus", "Anto og Morten", "Jesper & Sidsel", "Emilie", "Casper & Elisabet", "Magga og David"
+$madklubber = "Maj & Thomas", "Anette & Emil", "Tine & Magnus", "Anto og Morten", "Jesper & Sidsel", "Emilie", "Casper & Elisabet", "Magga og David", "Matias og Marina"
 
 #List them in the typed order
 write-host "The Madklubs are in the typed order:"
 $madklubber
 
+$numberOfMadklubber = $madklubber.Count
+$numberOfMadklubberZeroIndexed = $numberOfMadklubber - 1
+
+Write-Host "That's a total of" $numberOfMadklubber "(zeroindexed:" $numberOfMadklubberZeroIndexed ")"
 #General description of random method used by random.org
 #https://www.random.org/randomness/
 
@@ -25,7 +29,9 @@ write-host "`nWe now call upon the randomness served by the universe!"
 
 #Please note, like a real programming language, Powershell uses zero indexing
 #https://softwareengineering.stackexchange.com/questions/110804/why-are-zero-based-arrays-the-norm
-$webrequest = Invoke-WebRequest -URI "https://www.random.org/sequences/?min=0&max=7&col=1&format=plain&rnd=new"
+$randomDotOrgUrl = "https://www.random.org/sequences/?min=0&max=" + $numberOfMadklubberZeroIndexed + "&col=1&format=plain&rnd=new"
+Write-Host "Url to call:" $randomDotOrgUrl
+$webrequest = Invoke-WebRequest -URI  $randomDotOrgUrl
 
 $order = $webrequest.Content -split "`n" | Where-Object {$_ -ne ""} 
 write-host "`nWe have received the following order:"
